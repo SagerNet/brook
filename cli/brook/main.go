@@ -432,6 +432,9 @@ func main() {
 					Name:  "withoutBrookProtocol",
 					Usage: "The data will not be encrypted with brook protocol",
 				},
+				&cli.StringFlag{
+					Name: "serverAddress",
+				},
 			},
 			Action: func(c *cli.Context) error {
 				if debug {
@@ -455,7 +458,7 @@ func main() {
 				if c.String("socks5ServerIP") != "" {
 					ip = c.String("socks5ServerIP")
 				}
-				s, err := brook.NewWSClient(c.String("socks5"), ip, c.String("wsserver"), c.String("password"), c.Int("tcpTimeout"), c.Int("udpTimeout"))
+				s, err := brook.NewWSClientWithServerAddress(c.String("socks5"), ip, c.String("wsserver"), c.String("password"), c.Int("tcpTimeout"), c.Int("udpTimeout"), c.String("serverAddress"))
 				if err != nil {
 					return err
 				}
@@ -695,6 +698,9 @@ func main() {
 					Name:  "ca",
 					Usage: "When server is brook wssserver, specify ca instead of insecure, such as /path/to/ca.pem",
 				},
+				&cli.StringFlag{
+					Name: "serverAddress",
+				},
 			},
 			Action: func(c *cli.Context) error {
 				if debug {
@@ -718,7 +724,7 @@ func main() {
 				if c.String("socks5ServerIP") != "" {
 					ip = c.String("socks5ServerIP")
 				}
-				s, err := brook.NewWSClient(c.String("socks5"), ip, c.String("wssserver"), c.String("password"), c.Int("tcpTimeout"), c.Int("udpTimeout"))
+				s, err := brook.NewWSClientWithServerAddress(c.String("socks5"), ip, c.String("wssserver"), c.String("password"), c.Int("tcpTimeout"), c.Int("udpTimeout"), c.String("serverAddress"))
 				if err != nil {
 					return err
 				}

@@ -55,6 +55,10 @@ type WSClient struct {
 
 // NewWSClient.
 func NewWSClient(addr, ip, server, password string, tcpTimeout, udpTimeout int) (*WSClient, error) {
+	return NewWSClientWithServerAddress(addr, ip, server, password, tcpTimeout, udpTimeout, "")
+}
+
+func NewWSClientWithServerAddress(addr, ip, server, password string, tcpTimeout, udpTimeout int, serverAddress string) (*WSClient, error) {
 	s5, err := socks5.NewClassicServer(addr, ip, "", "", tcpTimeout, udpTimeout)
 	if err != nil {
 		return nil, err
@@ -76,8 +80,8 @@ func NewWSClient(addr, ip, server, password string, tcpTimeout, udpTimeout int) 
 		return nil, err
 	}
 	x := &WSClient{
-		ServerHost:     u.Host,
-		Server:         s5,
+		ServerHost:    u.Host,
+		ServerAddress: serverAddress, Server: s5,
 		Password:       []byte(password),
 		PasswordSha256: b,
 		TCPTimeout:     tcpTimeout,
